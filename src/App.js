@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GoogleSpreadsheetStore from './google-spreadsheet-store';
-import { url } from 'is_js';
+import { url, empty } from 'is_js';
 import './App.css';
 
 const store = new GoogleSpreadsheetStore();
@@ -19,18 +19,19 @@ class App extends Component {
   render() {
     const { data } = this.state;
 
-    if(data === null) {
+    if(data === null)
       return false;
-    }
 
     const collection = data.rows;
     const entries = collection.map((entry, i) => {
-      const name = entry.name;
-      const imageUrl = url(entry.image) ? entry.image : false;
+      const { name, description, image } = entry;
+
+      const title = !empty(description) ? `${name} (${description})` : name;
+      const imageUrl = url(image) ? image : false;
 
       return (
-        <div key={i}>
-          {entry.name}
+        <div className="Entry" key={i}>
+          <h2>{title}</h2>
           {imageUrl && <img src={imageUrl} />}
         </div>
       );
