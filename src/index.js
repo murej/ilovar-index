@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import GoogleSpreadsheetStore from './google-spreadsheet-store';
 
+import 'reset-css/reset.css';
 import './index.css';
 
 import App from './components/App';
