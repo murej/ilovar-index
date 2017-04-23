@@ -1,0 +1,13 @@
+$center: center;
+
+%extend font-regular {
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+%extend font-bold {
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
