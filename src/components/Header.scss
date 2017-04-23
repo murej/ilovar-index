@@ -1,0 +1,38 @@
+@import "../globals";
+
+.Header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    @include header-1;
+  }
+
+  .Header-Nav {
+    @include header-1;
+
+    .active {
+      // display: none;
+    }
+  }
+  .Header-About {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+
+    color: $color-white;
+    background-color: $color-black;
+
+    animation: appear 0s;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

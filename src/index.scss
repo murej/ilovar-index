@@ -1,7 +1,14 @@
 @import "./globals";
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  padding: $base-unit;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  @extend %font-regular;
+  background-color: $color-grey;
+}
+
+a {
+  color: $color-black;
+  text-decoration: none;
 }

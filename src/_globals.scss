@@ -1,13 +1,51 @@
-$center: center;
+$base-font-size: 14/16 * 1rem;
+$base-line-height: 1.2;
+$base-unit: 1/2 * 1rem;
 
-%extend font-regular {
-  font-family: Arial, sans-serif;
+$color-white: white;
+$color-black: black;
+$color-grey: #E2E2E2;
+$color-blue: #0000FF;
+
+%font-regular {
+  font-family: "Helvetica Neue", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
 }
 
-%extend font-bold {
-  font-family: Arial, sans-serif;
+%font-medium {
+  font-family: "Helvetica Neue", Arial sans-serif;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
+}
+
+@mixin header-1 {
+  @extend %font-medium;
+  font-size: rem(16px);
+}
+
+@mixin header-2 {
+  @extend %font-regular;
+  font-size: rem(14px);
+
+  & + * {
+    margin-top: rem(18px);
+  }
+}
+
+@mixin header-3 {
+  @extend %font-regular;
+  font-size: rem(14px);
+  text-decoration: underline;
+
+  margin-top: rem(18px);
+}
+
+@mixin body {
+  @extend %font-regular;
+  font-size: 1rem;
+}
+
+@function rem($pixels) {
+  @return $pixels/16px * 1rem;
 }
