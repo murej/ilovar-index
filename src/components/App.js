@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GoogleSpreadsheetStore from './google-spreadsheet-store';
+import GoogleSpreadsheetStore from '../google-spreadsheet-store';
 import { url } from 'is_js';
 import './App.css';
 
