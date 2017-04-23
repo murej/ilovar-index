@@ -15,16 +15,12 @@ store.getSpreadsheet('1SJy-kAc4Ypse51x5LHs2Z0Cols4pZ642c0A3slzlKys')
      .then((entries) => render(entries));
 
 function render(entries) {
-  const routes = (
-    <App>
-      <Route exact path="/" render={props => <Pinboard entries={entries} {...props} />} />
-      <Route path="/index" render={props => <ListIndex entries={entries} {...props} />} />
-    </App>
-  );
-
   ReactDOM.render(
     <Router>
-      {routes}
+      <App>
+        <Route exact path="/" render={props => <Pinboard entries={entries} {...props} />} />
+        <Route path="/index" render={props => <ListIndex entries={entries} {...props} />} />
+      </App>
     </Router>,
     document.getElementById('root')
   );
