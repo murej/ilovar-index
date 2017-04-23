@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { url } from 'is_js';
 import './ListIndex.css';
 
 class ListIndex extends Component {
-  getEntries() {
-    const { items } = this.props;
+  getItems() {
+    const { entries } = this.props;
 
-    const entries = items.map((item, i) => {
-      const { firstname, lastname, born, nationality, based, image } = item;
+    const items = entries.map((entry, i) => {
+      const { firstname, lastname, image, born, nationality, based } = entry;
 
       const title = `${firstname} ${lastname} (b. ${born} ${nationality}, w. ${based})`;
       const imageUrl = url(image) ? image : false;
@@ -14,24 +16,26 @@ class ListIndex extends Component {
       const searchUrl = `https://www.google.com/search?q=${firstname}+${lastname}&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiDr9X5sLnTAhXJaFAKHR64DrkQ_AUICCgB&biw=1625&bih=948`;
 
       return (
-        <div className="ListIndex-Entry" key={i}>
+        <div className="ListIndex-Item" key={i}>
           {imageUrl && <img src={imageUrl} alt={`${firstname} ${lastname}`}/>}
           <h2><a href={searchUrl} target="_blank">{title}</a></h2>
         </div>
       );
     });
+
+    return items;
   }
   render() {
     return (
       <div className="ListIndex">
-        {this.getEntries()}
+        index
       </div>
     );
   }
 }
 
 ListIndex.propTypes = {
-  items: React.PropTypes.array.isRequired
+  entries: PropTypes.array.isRequired
 }
 
 export default ListIndex;
