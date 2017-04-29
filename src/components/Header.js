@@ -11,8 +11,10 @@ class Header extends Component {
     }
 
     this._handleHeaderClick = this._handleHeaderClick.bind(this);
+    this._handleHeaderMouseOver = this._handleHeaderMouseOver.bind(this);
   }
   render() {
+    const { title } = this.props;
     const { showAbout } = this.state;
 
     const about =
@@ -22,7 +24,10 @@ class Header extends Component {
 
     return (
       <div className="Header">
-        <h1 onClick={this._handleHeaderClick}>Seznam, odpri se!</h1>
+        <div className="Header-Main">
+          <h1 onMouseOver={this._handleHeaderMouseOver} onClick={this._handleHeaderClick}>Seznam, odpri se!</h1>
+          {title && <h1>{title}</h1>}
+        </div>
         <div className="Header-Nav">
           <NavLink to="/index">Show index</NavLink>
           <NavLink to="/" className="Header-NavHome">Hide index</NavLink>
@@ -30,6 +35,11 @@ class Header extends Component {
         {showAbout && about}
       </div>
     );
+  }
+  _handleHeaderMouseOver() {
+    this.setState({
+
+    });
   }
   _handleHeaderClick() {
     this.setState({
@@ -39,7 +49,7 @@ class Header extends Component {
 }
 
 Header.defaultProps = {
-  index: false
+  title: null
 }
 
 export default Header;

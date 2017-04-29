@@ -1,7 +1,11 @@
 @import "../globals";
 
 .Header {
-  position: relative;
+  position: fixed;
+  top: 0; left: 0;
+  padding: $base-unit;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 
@@ -12,27 +16,33 @@
   .Header-Nav {
     @include header-1;
 
+    // hack
     .active {
-      // display: none;
+      display: none;
+    }
+    .active + .active {
+      display: block;
     }
   }
   .Header-About {
     position: absolute;
     top: 0; left: 0;
     width: 100%;
+    padding: $base-unit;
 
     color: $color-white;
     background-color: $color-black;
 
-    animation: appear 0s;
+    transform: translateY(-100%);
+    animation: appear 1s linear;
   }
 }
 
 @keyframes appear {
   from {
-    opacity: 0;
+    transform: translateY(-100%);
   }
   to {
-    opacity: 1;
+    transform: translateY(0%);
   }
 }

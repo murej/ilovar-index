@@ -5,6 +5,7 @@ import _map from 'lodash/map';
 import _sortBy from 'lodash/sortBy';
 import './ListIndex.css';
 
+import Header from './Header';
 import SortableList from './SortableList';
 
 class ListIndex extends Component {
@@ -30,6 +31,7 @@ class ListIndex extends Component {
 
     return (
       <div className="ListIndex">
+        <Header />
         <div className="ListIndex-Column">
           <SortableList
             title="A–Z"
