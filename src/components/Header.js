@@ -18,21 +18,24 @@ class Header extends Component {
     const { showAbout } = this.state;
 
     const about =
-      <div className="Header-About" onMouseOut={this._handleHeaderClick}>
+      <div className="Header-About">
         <h1>Seznam, odpri se!</h1>
+        <h1>Run by<br />Klemen Ilovar, member of Ansambel</h1>
+        <h1>Built by<br />Jure Martinec, member of Ansambel</h1>
+        <h1>2017</h1>
       </div>;
 
     return (
       <div className="Header">
         <div className="Header-Main">
-          <h1 onMouseOver={this._handleHeaderMouseOver} onClick={this._handleHeaderClick}>Seznam, odpri se!</h1>
+          {about}
+          <h1>Seznam, odpri se!</h1>
           {title && <h1>{title}</h1>}
         </div>
         <div className="Header-Nav">
           <NavLink to="/index">Show index</NavLink>
           <NavLink to="/" className="Header-NavHome">Hide index</NavLink>
         </div>
-        {showAbout && about}
       </div>
     );
   }
