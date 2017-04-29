@@ -1,5 +1,82 @@
 @import "../globals";
 
 .Pinboard {
+  $padding: 12*8px;
+  @include media("<small") {
+    padding-top: rem($padding/4/2);
+    padding-bottom: rem($padding/4/2);
+    padding-left: rem($padding/4);
+    padding-right: rem($padding/4);
+  }
+  @include media(">small", "<=medium") {
+    padding-top: rem($padding/2);
+    padding-bottom: rem($padding/2);
+    padding-left: rem($padding/2);
+    padding-right: rem($padding/2);
+  }
+  @include media(">medium") {
+    padding-top: rem($padding/2);
+    padding-bottom: rem($padding/2);
+    padding-left: rem($padding);
+    padding-right: rem($padding);
+  }
 
+  .Pinboard-Item {
+    box-sizing: border-box;
+    @include media("<small") {
+      padding-top: rem($padding/4/2);
+      padding-bottom: rem($padding/4/2);
+    }
+    @include media(">small", "<=medium") {
+      padding-top: rem($padding/2);
+      padding-bottom: rem($padding/2);
+    }
+    @include media(">medium") {
+      padding-top: rem($padding/2);
+      padding-bottom: rem($padding/2);
+    }
+
+    .Pinboard-ItemContent {
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+
+        &:hover {
+          box-shadow: rem(5px) rem(7px) rem(22px) rgba($color-green, 0.5);
+        }
+      }
+    }
+
+    &--even {
+      @include media(">=small") {
+      }
+      @include media("<small") {
+
+      }
+      @include media(">small", "<=medium") {
+        padding-right: rem($padding/4);
+        float: left;
+        width: 50%;
+      }
+      @include media(">medium") {
+        padding-right: rem($padding/2);
+        float: left;
+        width: 50%;
+      }
+
+    }
+    &--odd {
+      @include media(">small", "<=medium") {
+        padding-left: rem($padding/4);
+        float: right;
+        width: 50%;
+      }
+      @include media(">medium") {
+        padding-left: rem($padding/2);
+        float: right;
+        width: 50%;
+      }
+    }
+  }
 }
