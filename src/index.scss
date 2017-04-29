@@ -1,8 +1,19 @@
 @import "./globals";
 
+html {
+  @include media("<small") {
+    font-size: $base-font-size-small;
+  }
+  @include media(">small", "<=medium") {
+    font-size: $base-font-size;
+  }
+  @include media(">medium") {
+    font-size: $base-font-size-large;
+  }
+}
+
 body {
   padding: $base-unit;
-  font-size: $base-font-size;
   line-height: $base-line-height;
   @extend %font-regular;
   background-color: $color-grey;

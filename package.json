@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
     "gh-pages": "^0.12.0",
+    "include-media": "^1.4.9",
     "is_js": "^0.9.0",
     "lodash": "^4.17.4",
+    "node-sass-import": "^1.1.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
-    "react-router-scroll": "^0.4.2",
     "reset-css": "^2.2.0"
   },
   "devDependencies": {
@@ -19,8 +21,8 @@
     "react-scripts": "0.9.5"
   },
   "scripts": {
-    "build-css": "node-sass src/ -o src/",
-    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
+    "build-css": "node-sass src/ -o src/ --importer node_modules/node-sass-import",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive --importer node_modules/node-sass-import",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",

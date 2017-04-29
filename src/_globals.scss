@@ -1,4 +1,8 @@
-$base-font-size: 14/16 * 1rem;
+@import "include-media/dist/include-media";
+
+$base-font-size-small: 14px;
+$base-font-size: 16px;
+$base-font-size-large: 18px;
 $base-line-height: 1.2;
 $base-unit: 1/2 * 1rem;
 
@@ -6,6 +10,13 @@ $color-white: white;
 $color-black: black;
 $color-grey: #E2E2E2;
 $color-blue: #0000FF;
+$color-green: #00FF00;
+
+$breakpoints: (
+  small: 768px,
+  medium: 1024px,
+  large: 1280px
+);
 
 %font-regular {
   font-family: "Helvetica Neue", Arial, sans-serif;
