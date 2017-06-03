@@ -31,7 +31,7 @@ export default class GoogleSpreadsheetStore {
         for (var key in data.feed.entry[i]) {
             if (data.feed.entry[i].hasOwnProperty(key) && key.substr(0,4) === 'gsx$') {
                 // copy the value in the key up a level and delete the original key
-                data.feed.entry[i][key.substr(4)] = data.feed.entry[i][key].$t;
+                data.feed.entry[i][key.substr(4)] = data.feed.entry[i][key].$t.trim();
                 delete data.feed.entry[i][key];
             }
         }

@@ -29,15 +29,20 @@ $breakpoints: (
   font-style: normal;
   font-weight: 500;
 }
+%font-bold {
+  font-family: "Helvetica Neue", Arial sans-serif;
+  font-style: normal;
+  font-weight: 700;
+}
 
 @mixin header-1 {
-  @extend %font-medium;
+  @extend %font-bold;
   font-size: rem(16px);
 }
 
 @mixin header-2 {
   @extend %font-regular;
-  font-size: rem(14px);
+  font-size: rem(16px);
 
   & + * {
     margin-top: rem(18px);
@@ -46,7 +51,7 @@ $breakpoints: (
 
 @mixin header-3 {
   @extend %font-regular;
-  font-size: rem(14px);
+  font-size: rem(16px);
   text-decoration: underline;
 
   margin-top: rem(18px);

@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "gh-pages": "^0.12.0",
+    "humanparser": "^1.1.1",
     "include-media": "^1.4.9",
     "is_js": "^0.9.0",
     "lodash": "^4.17.4",

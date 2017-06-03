@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _sortBy from 'lodash/sortBy';
+import { url } from 'is_js';
 
 import './SortableList.css';
 
@@ -10,7 +11,7 @@ class SortableList extends Component {
     super(props);
 
     this.state = {
-      isReverse: false
+      isReverse: false,
     }
 
     this._handleOnTitleClick = this._handleOnTitleClick.bind(this);
@@ -29,19 +30,53 @@ class SortableList extends Component {
     }
 
     return entries.map((entry, i) => {
-      const { firstname, lastname } = entry;
+      const { firstname, lastname, imageurl } = entry;
+      const hasFirstName = firstname !== '';
+      const hasLastName = lastname !== '';
 
-      const title = `${firstname} ${lastname}`;
-      const searchUrl = `https://www.google.com/search?q=${firstname}+${lastname}&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiDr9X5sLnTAhXJaFAKHR64DrkQ_AUICCgB&biw=1625&bih=948`;
+      const searchUrlPrefix = `https://www.google.com/search?q=`;
+      const searchUrlSuffix = `&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiDr9X5sLnTAhXJaFAKHR64DrkQ_AUICCgB&biw=1625&bih=948`;
+
+      let title;
+      let searchUrl;
+      if(hasFirstName && hasLastName) {
+        title = `${firstname} ${lastname}`;
+        searchUrl = `${searchUrlPrefix}${firstname}+${lastname}${searchUrlSuffix}`;
+      } else if(hasFirstName) {
+        title = `${firstname}`;
+        searchUrl = `${searchUrlPrefix}${firstname}${searchUrlSuffix}`;
+      } else if(hasLastName) {
+        title = `${lastname}`;
+        searchUrl = `${searchUrlPrefix}${lastname}${searchUrlSuffix}`;
+      } else {
+        title = 'Unknown'
+      }
+
+      const imageUrl = url(imageurl) ? imageurl : null;
 
       return (
         <li className="SortableList-Item" key={i}>
-          <a href={searchUrl} target="_blank">{title}</a>
+          <a
+            href={searchUrl}
+            target="_blank"
+            onMouseEnter={this.handleOnItemMouseEnter.bind(this, imageUrl)}
+            onMouseLeave={this.handleOnItemMouseLeave.bind(this)}
+          >{title}</a>
         </li>
       );
     });
   }
+  handleOnItemMouseEnter(imageUrl, event) {
+    const image = {
+      isRight: event.clientX < window.innerWidth/2 ? true : false,
+      url: imageUrl
+    }
 
+    this.props.onItemMouseEnter && this.props.onItemMouseEnter(image);
+  }
+  handleOnItemMouseLeave() {
+    this.props.onItemMouseLeave && this.props.onItemMouseLeave();
+  }
   getGroups() {
     const { items, groupBy } = this.props;
     const { isReverse } = this.state;
@@ -93,9 +128,20 @@ class SortableList extends Component {
   }
 
   _handleOnTitleClick() {
-    this.setState({
-      isReverse: !this.state.isReverse
-    });
+    const { onTitleClick } = this.props;
+
+    if(onTitleClick) {
+      onTitleClick();
+    } else {
+      this.setState({
+        isReverse: !this.state.isReverse
+      });
+    }
+  }
+  _getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
 
@@ -104,6 +150,9 @@ SortableList.propTypes = {
   items: PropTypes.array.isRequired,
   groupBy: PropTypes.string,
   sortItemsBy: PropTypes.string,
+  onTitleClick: PropTypes.func,
+  onItemMouseEnter: PropTypes.func,
+  onItemMouseLeave: PropTypes.func
 }
 
 export default SortableList;

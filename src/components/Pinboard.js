@@ -10,17 +10,16 @@ class Pinboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: null
+      title: null,
+      showLimit: 10
     }
-  }
-  getItems() {
-    const { entries } = this.props;
 
+    this.columnRefs = [];
+    this._handleOnWindowScroll = this._handleOnWindowScroll.bind(this);
+  }
+  getItems(entries) {
     const items = entries.map((entry, i) => {
       const { firstname, lastname, imageurl, born, nationality, based } = entry;
-
-      const isEven = i % 2 === 0;
-      const isOdd = !isEven;
 
       const title = `${firstname} ${lastname} (b. ${born} ${nationality}, w. ${based})`;
       const image = url(imageurl) ? imageurl : false;
@@ -29,8 +28,6 @@ class Pinboard extends Component {
 
       const className = cx({
         'Pinboard-Item': true,
-        'Pinboard-Item--odd': isOdd,
-        'Pinboard-Item--even': isEven,
       })
 
       return (
@@ -53,15 +50,75 @@ class Pinboard extends Component {
 
     return items;
   }
+  componentDidMount() {
+    window.addEventListener('scroll', this._handleOnWindowScroll)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._handleOnWindowScroll)
+  }
   render() {
-    const { title } = this.state;
+    const { entries } = this.props;
+    const { title, showLimit } = this.state;
+
+    const reversedEntries = entries.slice(0).reverse();
+
+    const entriesWithImages = reversedEntries.reduce((entriesWithImages, entry, i) => {
+      const hasImage = url(entry.imageurl);
+      hasImage && entriesWithImages.push(entry);
+      return entriesWithImages;
+    }, []);
+
+    const oddEntries = entriesWithImages.reduce((oddEntries, entry, i) => {
+      const isWithinShowLimit = i < showLimit;
+
+      const isOdd = i % 2 === 0;
+
+      (isOdd && isWithinShowLimit) && oddEntries.push(entry);
+      return oddEntries;
+    }, []);
+
+    const evenEntries = entriesWithImages.reduce((evenEntries, entry, i) => {
+      const isWithinShowLimit = i < showLimit;
+
+      const isEven = i % 2 === 1;
+
+      (isEven && isWithinShowLimit) && evenEntries.push(entry);
+      return evenEntries;
+    }, []);
 
     return (
       <div className="Pinboard">
         <Header title={title} />
-        {this.getItems()}
+        <div className="Pinboard-Column" ref={(ref) => this.columnRefs[0] = ref}>
+          {this.getItems(oddEntries)}
+        </div>
+        <div className="Pinboard-Column" ref={(ref) => this.columnRefs[1] = ref}>
+          {this.getItems(evenEntries)}
+        </div>
       </div>
     );
+  }
+  _handleOnWindowScroll(event) {
+    const bodyBottom = event.target.scrollingElement.scrollHeight;
+    let smallestColumnHeight = bodyBottom;
+
+    this.columnRefs.forEach((ref) => {
+      const columnHeight = ref.clientHeight;
+      const isSmallerHeight = columnHeight < smallestColumnHeight;
+
+      if(isSmallerHeight) {
+        smallestColumnHeight = columnHeight;
+      }
+    })
+
+    const windowHeight = window.innerHeight;
+    const windowBottom = window.scrollY+windowHeight;
+
+    const hasReachedEnd = smallestColumnHeight-windowHeight <= windowBottom;
+
+    hasReachedEnd && this.setState({
+      showLimit: this.state.showLimit + 10
+    })
   }
   _handleMouseEnter(title) {
     this.setState({
