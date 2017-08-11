@@ -2,37 +2,37 @@
 
 .Pinboard {
   $padding: 24*8px;
-  display: flex;
-  align-items: flex-start;
 
   .Pinboard-Column {
     max-width: 500px;//rem(660px);
     box-sizing: border-box;
 
-    &:first-child {
-      padding-right: rem($padding/2);
-    }
-    &:last-child {
-      padding-left: rem($padding/2);
-    }
   }
 
     .Pinboard-Item {
-      box-sizing: border-box;
+      // box-sizing: border-box;
       margin-top: rem($padding/2);
-      margin-bottom: rem($padding/2);
+      // margin-bottom: rem($padding/2);
+      margin-left: rem($padding/4);
+      margin-right: rem($padding/4);
+      max-width: 500px;
 
-      .Pinboard-ItemContent {
-        img {
-          // max-height: rem(800px);
-          width: 100%;
-          height: auto;
-          display: block;
+      img {
+        // max-height: rem(800px);
+        width: 100%;
+        height: auto;
+        display: block;
 
-          &:hover {
-            box-shadow: rem(5px) rem(7px) rem(22px) rgba($color-green, 0.5);
-          }
+        &:hover {
+          box-shadow: rem(5px) rem(7px) rem(22px) rgba($color-green, 0.5);
         }
+
+        // &:first-child {
+        //   padding-right: rem($padding/2);
+        // }
+        // &:last-child {
+        //   padding-left: rem($padding/2);
+        // }
       }
 
       &--even {

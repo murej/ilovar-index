@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+// import ReactPinboard from 'react-pinboard';
+import Masonry from 'react-masonry-component';
 import { url } from 'is_js';
 import './Pinboard.css';
 
@@ -32,18 +34,16 @@ class Pinboard extends Component {
 
       return (
         <div className={className} key={i}>
-          <div className="Pinboard-ItemContent">
-            {image &&
-              <a href={searchUrl} target="_blank" title={`More ${firstname} ${lastname} →`}>
-                <img
-                  onMouseEnter={this._handleMouseEnter.bind(this, `→ ${title}`)}
-                  onMouseLeave={this._handleMouseEnter.bind(this, null)}
-                  src={image}
-                  alt={`${firstname} ${lastname}`}
-                />
-              </a>
-            }
-          </div>
+          {image &&
+            <a href={searchUrl} target="_blank" title={`More ${firstname} ${lastname} →`}>
+              <img
+                onMouseEnter={this._handleMouseEnter.bind(this, `→ ${title}`)}
+                onMouseLeave={this._handleMouseEnter.bind(this, null)}
+                src={image}
+                alt={`${firstname} ${lastname}`}
+              />
+            </a>
+          }
         </div>
       );
     });
@@ -68,33 +68,39 @@ class Pinboard extends Component {
       return entriesWithImages;
     }, []);
 
-    const oddEntries = entriesWithImages.reduce((oddEntries, entry, i) => {
-      const isWithinShowLimit = i < showLimit;
+    // const oddEntries = entriesWithImages.reduce((oddEntries, entry, i) => {
+    //   const isWithinShowLimit = i < showLimit;
+    //
+    //   const isOdd = i % 2 === 0;
+    //
+    //   (isOdd && isWithinShowLimit) && oddEntries.push(entry);
+    //   return oddEntries;
+    // }, []);
+    //
+    // const evenEntries = entriesWithImages.reduce((evenEntries, entry, i) => {
+    //   const isWithinShowLimit = i < showLimit;
+    //
+    //   const isEven = i % 2 === 1;
+    //
+    //   (isEven && isWithinShowLimit) && evenEntries.push(entry);
+    //   return evenEntries;
+    // }, []);
 
-      const isOdd = i % 2 === 0;
+    const entryGroups = entriesWithImages.reduce((entryGroups, entry, i) => {
 
-      (isOdd && isWithinShowLimit) && oddEntries.push(entry);
-      return oddEntries;
-    }, []);
-
-    const evenEntries = entriesWithImages.reduce((evenEntries, entry, i) => {
-      const isWithinShowLimit = i < showLimit;
-
-      const isEven = i % 2 === 1;
-
-      (isEven && isWithinShowLimit) && evenEntries.push(entry);
-      return evenEntries;
     }, []);
 
     return (
       <div className="Pinboard">
         <Header title={title} />
-        <div className="Pinboard-Column" ref={(ref) => this.columnRefs[0] = ref}>
-          {this.getItems(oddEntries)}
-        </div>
-        <div className="Pinboard-Column" ref={(ref) => this.columnRefs[1] = ref}>
-          {this.getItems(evenEntries)}
-        </div>
+        <Masonry
+          className={'my-gallery-class'}
+          options={{}}
+          disableImagesLoaded={false}
+          updateOnEachImageLoad={false}
+        >
+          {this.getItems(entriesWithImages)}
+        </Masonry>
       </div>
     );
   }
