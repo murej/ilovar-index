@@ -3,22 +3,23 @@
 .Pinboard {
   $padding: 24*8px;
 
-  .Pinboard-Column {
-    max-width: 500px;//rem(660px);
-    box-sizing: border-box;
+  .Pinboard-Group {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    margin: rem($padding/4) rem($padding/8) rem($padding/4) rem($padding/8);
 
+    @include media("<small") {
+      flex-direction: column;
+    }
   }
 
     .Pinboard-Item {
-      // box-sizing: border-box;
-      margin-top: rem($padding/2);
-      // margin-bottom: rem($padding/2);
-      margin-left: rem($padding/4);
-      margin-right: rem($padding/4);
+      box-sizing: border-box;
+      padding: rem($padding/4);
       max-width: 500px;
 
       img {
-        // max-height: rem(800px);
         width: 100%;
         height: auto;
         display: block;
@@ -26,24 +27,6 @@
         &:hover {
           box-shadow: rem(5px) rem(7px) rem(22px) rgba($color-green, 0.5);
         }
-
-        // &:first-child {
-        //   padding-right: rem($padding/2);
-        // }
-        // &:last-child {
-        //   padding-left: rem($padding/2);
-        // }
-      }
-
-      &--even {
-        // padding-right: rem($padding);
-        // float: left;
-        // width: 50%;
-      }
-      &--odd {
-        // padding-left: rem($padding);
-        // float: right;
-        // width: 50%;
       }
     }
 }
