@@ -5,6 +5,7 @@
   h2.SortableList-Title {
     @include header-2;
     cursor: pointer;
+    user-select: none;
   }
 
   .SortableList-ItemGroup {
