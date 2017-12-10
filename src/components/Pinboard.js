@@ -17,38 +17,32 @@ class Pinboard extends Component {
     this.columnRefs = [];
     this._handleOnWindowScroll = this._handleOnWindowScroll.bind(this);
   }
-  getItems(entries) {
-    const items = entries.map((entry, i) => {
-      const { firstname, lastname, imageurl, born, nationality, based } = entry;
+  getItem(entry) {
+    const { firstname, lastname, imageurl, born, nationality, based } = entry;
 
-      const title = `${firstname} ${lastname} (b. ${born} ${nationality}, w. ${based})`;
-      const image = url(imageurl) ? imageurl : false;
+    const title = `${firstname} ${lastname} (b. ${born} ${nationality}, w. ${based})`;
+    const image = url(imageurl) ? imageurl : false;
 
-      const searchUrl = `https://www.google.com/search?q=${firstname}+${lastname}&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiDr9X5sLnTAhXJaFAKHR64DrkQ_AUICCgB&biw=1625&bih=948`;
+    const searchUrl = `https://www.google.com/search?q=${firstname}+${lastname}&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiDr9X5sLnTAhXJaFAKHR64DrkQ_AUICCgB&biw=1625&bih=948`;
 
-      const className = cx({
-        'Pinboard-Item': true,
-      })
+    const className = cx({
+      'Pinboard-Item': true,
+    })
 
-      return (
-        <div className={className} key={i}>
-          <div className="Pinboard-ItemContent">
-            {image &&
-              <a href={searchUrl} target="_blank" title={`More ${firstname} ${lastname} →`}>
-                <img
-                  onMouseEnter={this._handleMouseEnter.bind(this, `→ ${title}`)}
-                  onMouseLeave={this._handleMouseEnter.bind(this, null)}
-                  src={image}
-                  alt={`${firstname} ${lastname}`}
-                />
-              </a>
-            }
-          </div>
-        </div>
-      );
-    });
-
-    return items;
+    return (
+      <div className={className}>
+        {image &&
+          <a href={searchUrl} target="_blank" title={`More ${firstname} ${lastname} →`}>
+            <img
+              onMouseEnter={this._handleMouseEnter.bind(this, `→ ${title}`)}
+              onMouseLeave={this._handleMouseEnter.bind(this, null)}
+              src={image}
+              alt={`${firstname} ${lastname}`}
+            />
+          </a>
+        }
+      </div>
+    );
   }
   componentDidMount() {
     window.addEventListener('scroll', this._handleOnWindowScroll)
@@ -68,33 +62,37 @@ class Pinboard extends Component {
       return entriesWithImages;
     }, []);
 
-    const oddEntries = entriesWithImages.reduce((oddEntries, entry, i) => {
+    const entryGroups = entriesWithImages.reduce((entryGroups, entry, i) => {
       const isWithinShowLimit = i < showLimit;
 
-      const isOdd = i % 2 === 0;
+      const isOdd = i % 2 === 1;
+      const isEven = i % 2 === 0 || i === 0;
 
-      (isOdd && isWithinShowLimit) && oddEntries.push(entry);
-      return oddEntries;
-    }, []);
+      if(isEven && isWithinShowLimit) {
+        const evenEntry = entriesWithImages[i];
+        const oddEntry = entriesWithImages[i+1];
 
-    const evenEntries = entriesWithImages.reduce((evenEntries, entry, i) => {
-      const isWithinShowLimit = i < showLimit;
+        entryGroups.push(
+          <div className="Pinboard-Group" key={i}>
+            <div className="Pinboard-Left">
+              {this.getItem(evenEntry)}
+            </div>
+            {oddEntry &&
+              <div className="Pinboard-Right">
+                {this.getItem(oddEntry)}
+              </div>
+            }
+          </div>
+        );
+      }
 
-      const isEven = i % 2 === 1;
-
-      (isEven && isWithinShowLimit) && evenEntries.push(entry);
-      return evenEntries;
+      return entryGroups;
     }, []);
 
     return (
       <div className="Pinboard">
         <Header title={title} />
-        <div className="Pinboard-Column" ref={(ref) => this.columnRefs[0] = ref}>
-          {this.getItems(oddEntries)}
-        </div>
-        <div className="Pinboard-Column" ref={(ref) => this.columnRefs[1] = ref}>
-          {this.getItems(evenEntries)}
-        </div>
+        {entryGroups}
       </div>
     );
   }
@@ -124,6 +122,11 @@ class Pinboard extends Component {
     this.setState({
       title: title
     })
+  }
+  _getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
   }
 }
 
