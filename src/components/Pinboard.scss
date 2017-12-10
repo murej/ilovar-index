@@ -1,26 +1,64 @@
 @import "../globals";
 
 .Pinboard {
-  $padding: 24*8px;
+  $padding: rem(14*8px); //19
+
+  $size-portrait-small: rem(43*8px);  //56  +6
+  $size-landscape-small: rem(49*8px); //62
+  $size-portrait-large: rem(49*8px);  //62  +7
+  $size-landscape-large: rem(55*8px); //69
+
+  $max-item-width: $size-landscape-large;
+  $max-group-width: $padding + $max-item-width + $padding + $max-item-width + $padding;
 
   .Pinboard-Group {
     display: flex;
-    align-items: center;
-    min-height: 80vh;
-    margin: rem($padding/4) rem($padding/8) rem($padding/4) rem($padding/8);
 
-    @include media("<small") {
+    @include media("<=mobile") {
       flex-direction: column;
+      padding: 0 rem(8px/2);
+      margin: rem(8px) 0;
+    }
+    @include media(">mobile") {
+      padding: 0 $padding/2;
+      margin: $padding 0;
     }
   }
 
     .Pinboard-Item {
-      box-sizing: border-box;
-      padding: rem($padding/4);
-      max-width: 500px;
+      flex-shrink: 0;
+
+      @include media("<=mobile") {
+        flex-direction: column;
+        padding: rem(8px);
+
+        img {
+          width: 100% !important;
+        }
+      }
+      @include media(">mobile") {
+        padding: 0 $padding/2;
+        width: $max-item-width;
+      }
+
+      &--small {
+        img.portrait {
+          width: $size-portrait-small;
+        }
+        img.landscape {
+          width: $size-landscape-small;
+        }
+      }
+      &--large {
+        img.portrait {
+          width: $size-portrait-large;
+        }
+        img.landscape {
+          width: $size-landscape-large;
+        }
+      }
 
       img {
-        width: 100%;
         height: auto;
         display: block;
 

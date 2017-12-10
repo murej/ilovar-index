@@ -18,6 +18,10 @@
       display: flex;
       flex-wrap: wrap;
 
+      @include media("<=mobile") {
+        flex-direction: column;
+      }
+
       .SortableList-Item {
         a:hover {
           color: $color-blue;

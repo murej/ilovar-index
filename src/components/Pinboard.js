@@ -5,6 +5,7 @@ import { url } from 'is_js';
 import './Pinboard.css';
 
 import Header from './Header';
+import AtomicImage from './AtomicImage';
 
 class Pinboard extends Component {
   constructor(props) {
@@ -18,23 +19,25 @@ class Pinboard extends Component {
     this._handleOnWindowScroll = this._handleOnWindowScroll.bind(this);
   }
   getItem(entry) {
-    const { firstname, lastname, imageurl, born, nationality, based } = entry;
+    const { firstname, lastname, born, nationality, based, imageurl, imagesize } = entry;
 
     const title = `${firstname} ${lastname} (b. ${born} ${nationality}, w. ${based})`;
     const image = url(imageurl) ? imageurl : false;
+    const size = imagesize === 'L' ? 'large' : 'small';
 
     const searchUrl = `https://www.google.com/search?q=${firstname}+${lastname}&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiDr9X5sLnTAhXJaFAKHR64DrkQ_AUICCgB&biw=1625&bih=948`;
 
     const className = cx({
       'Pinboard-Item': true,
+      [`Pinboard-Item--${size}`]: true
     })
 
     return (
       <div className={className}>
         {image &&
           <a href={searchUrl} target="_blank" title={`More ${firstname} ${lastname} →`}>
-            <img
-              onMouseEnter={this._handleMouseEnter.bind(this, `→ ${title}`)}
+            <AtomicImage
+              onMouseEnter={this._handleMouseEnter.bind(this, `${title}`)}
               onMouseLeave={this._handleMouseEnter.bind(this, null)}
               src={image}
               alt={`${firstname} ${lastname}`}
@@ -74,13 +77,9 @@ class Pinboard extends Component {
 
         entryGroups.push(
           <div className="Pinboard-Group" key={i}>
-            <div className="Pinboard-Left">
-              {this.getItem(evenEntry)}
-            </div>
+            {this.getItem(evenEntry)}
             {oddEntry &&
-              <div className="Pinboard-Right">
-                {this.getItem(oddEntry)}
-              </div>
+              this.getItem(oddEntry)
             }
           </div>
         );

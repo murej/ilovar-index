@@ -2,9 +2,13 @@
 
 .ListIndex {
   display: flex;
-  margin-top: 7*$base-unit;
+  margin-top: 9*$base-unit;
   margin-left: -$base-unit;
   margin-right: -$base-unit;
+
+  @include media("<=mobile") {
+    flex-direction: column;
+  }
 
   .ListIndex-Column {
     flex: 1;

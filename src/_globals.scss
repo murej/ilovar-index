@@ -1,8 +1,16 @@
 @import "include-media/dist/include-media";
 
-$base-font-size-small: 14px;
+$breakpoints: (
+  mobile: 768px,
+  laptop: 1280px,
+  desktop: 1680px
+);
+
+$base-font-size-xs: 12px;
+$base-font-size-s: 14px;
 $base-font-size: 16px;
-$base-font-size-large: 18px;
+$base-font-size-l: 20px;
+
 $base-line-height: 1.2;
 $base-unit: 1/2 * 1rem;
 
@@ -11,12 +19,9 @@ $color-black: black;
 $color-grey: #E2E2E2;
 $color-blue: #0000FF;
 $color-green: #00FF00;
-
-$breakpoints: (
-  small: 768px,
-  medium: 1024px,
-  large: 1280px
-);
+$color-purple: #9966ff;
+$color-yellow: #FFFF00;
+$color-red: #FF0000;
 
 %font-regular {
   font-family: "Helvetica Neue", Arial, sans-serif;
@@ -36,25 +41,24 @@ $breakpoints: (
 }
 
 @mixin header-1 {
-  @extend %font-bold;
-  font-size: rem(16px);
+  font-size: $base-font-size;
 }
 
 @mixin header-2 {
   @extend %font-regular;
-  font-size: rem(16px);
+  font-size: $base-font-size;
 
   & + * {
-    margin-top: rem(18px);
+    margin-top: $base-font-size + 2px;
   }
 }
 
 @mixin header-3 {
   @extend %font-regular;
-  font-size: rem(16px);
+  font-size: rem($base-font-size);
   text-decoration: underline;
 
-  margin-top: rem(18px);
+  margin-top: rem($base-font-size + 2px);
 }
 
 @mixin body {
@@ -63,5 +67,5 @@ $breakpoints: (
 }
 
 @function rem($pixels) {
-  @return $pixels/16px * 1rem;
+  @return $pixels/$base-font-size * 1rem;
 }

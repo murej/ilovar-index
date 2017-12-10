@@ -1,14 +1,17 @@
 @import "./globals";
 
 html {
-  @include media("<small") {
-    font-size: $base-font-size-small;
+  @include media("<=mobile") {
+    font-size: $base-font-size-xs;
   }
-  @include media(">small", "<=medium") {
+  @include media(">mobile", "<=laptop") {
+    font-size: $base-font-size-s;
+  }
+  @include media(">laptop", "<=desktop") {
     font-size: $base-font-size;
   }
-  @include media(">medium") {
-    font-size: $base-font-size-large;
+  @include media(">desktop") {
+    font-size: $base-font-size-l;
   }
 }
 
