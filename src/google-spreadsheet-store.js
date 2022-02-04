@@ -2,15 +2,16 @@ export default class GoogleSpreadsheetStore {
 
   fetchContent(query) {
     const options = {
-      mode: 'cors',
+      // mode: 'cors',
       // headers: {
         // 'x-client-name': 'nextgen',
       // },
-      cache: 'default'
+      // cache: 'default'
     };
 
     return fetch(query, options)
         .then((response) => {
+          console.log(response)
           return response.json();
         })
         .then((json) => {
@@ -19,9 +20,8 @@ export default class GoogleSpreadsheetStore {
         .catch((error) => { throw new Error(error) });
   }
 
-  getSpreadsheet(apiId) {
-    // const query = `http://gsx2json.com/api?id=${apiId}`;
-    const query = `https://spreadsheets.google.com/feeds/list/${apiId}/od6/public/values?alt=json`;
+  getSpreadsheet(spreadsheetId, key) {
+    const query = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/CONTENT?alt=json&key=${key}`;
 
     return this.fetchContent(query).then(data => this.prettifyGoogleSheetsJSON(data));
   }
