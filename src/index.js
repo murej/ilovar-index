@@ -13,7 +13,7 @@ import ListIndex from './components/ListIndex';
 
 const store = new GoogleSpreadsheetStore();
 
-store.getSpreadsheet('1SJy-kAc4Ypse51x5LHs2Z0Cols4pZ642c0A3slzlKys', process.env.GOOGLE_API_KEY)
+store.getSpreadsheet('1SJy-kAc4Ypse51x5LHs2Z0Cols4pZ642c0A3slzlKys', process.env.REACT_APP_GOOGLE_API_KEY)
      .then((entries) => render(entries));
 
 function render(entries) {
