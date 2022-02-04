@@ -32,5 +32,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "proxy": "http://gsx2json.com"
+  "proxy": "http://gsx2json.com",
+  "homepage": "https://ilovar-index.vercel.app"
 }
