@@ -11,7 +11,6 @@ export default class GoogleSpreadsheetStore {
 
     return fetch(query, options)
         .then((response) => {
-          console.log(response)
           return response.json();
         })
         .then((json) => {
@@ -27,15 +26,16 @@ export default class GoogleSpreadsheetStore {
   }
 
   prettifyGoogleSheetsJSON(data) {
-    for (var i = 0; i < data.feed.entry.length; i++) {
-        for (var key in data.feed.entry[i]) {
-            if (data.feed.entry[i].hasOwnProperty(key) && key.substr(0,4) === 'gsx$') {
-                // copy the value in the key up a level and delete the original key
-                data.feed.entry[i][key.substr(4)] = data.feed.entry[i][key].$t.trim();
-                delete data.feed.entry[i][key];
-            }
-        }
-    }
-    return data.feed.entry;
+    let rows = data.values;
+    const labels = rows[0].map((label, index) => label.toLowerCase().replace(/\s/g, ''));
+    rows.slice(0,1);
+
+    return rows.map((row) => {
+      const prettifiedRow = {}
+      for(let i=1; i < row.length; i++) {
+        prettifiedRow[labels[i]] = row[i];
+      }
+      return prettifiedRow;
+    });
   }
 }
